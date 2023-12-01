@@ -66,12 +66,11 @@ def calibrate(exercise) -> int:
         # Add them to the sum
         calibration_sum += first_digit + last_digit
 
-        print(line, first_digit, last_digit)
-
     return calibration_sum
 
 def main():
     '''Program process'''
+    print(calibrate(1))
     print(calibrate(2))
 
 if __name__ ==  '__main__':
