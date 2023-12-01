@@ -39,17 +39,16 @@ def digit_search(
     string: str
         Each input line where the digits must be found
 
-    side: str
+    side: Literal['front', 'back']
         "front" if the first digit is wanted
         "back" if the last digit is wanted
 
-    exercise: int
+    exercise: Literal[1, 2]
         1 if first AoC exercise
         2 if second AoC exercise
     
     Returns
     -------
-    int
     Digit wanted
     '''
 
@@ -98,6 +97,19 @@ def digit_search(
                 return int(words_to_digits[word_number])
 
 def calibrate(exercise: Literal[1, 2]) -> int:
+    '''
+    Calculate the calibration values and its sum.
+
+    Paramaters
+    ----------
+    exercise: Literal[1, 2]
+        1 if first AoC exercise
+        2 if second AoC exercise
+
+    Returns
+    -------
+    Sum of all calibration values
+    '''
 
     # Initialize general sum
     calibration_sum = 0
