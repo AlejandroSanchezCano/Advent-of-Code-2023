@@ -18,7 +18,6 @@ def read_input(file: str) -> Generator[str, None, None]:
     -------
     Generator[str, None, None]:
         Each line of the input file.
-
     '''
     with open(file, 'r') as handle:
         for line in handle.readlines():
@@ -87,9 +86,9 @@ def digit_search(
         # If no digits have been found, the substrting from the index point
         # until the beginning (front) or the end (back) is alphabetic
         if side == 'front':
-            alphabetic = string[0 : index + 1]
+            alphabetic = string[: index + 1]
         elif side == 'back':
-            alphabetic = string[index : len(string)]
+            alphabetic = string[index:]
 
         # Check if the alphabetic sequence corresponds to any digit
         for word_number in words_to_digits:
