@@ -14,7 +14,8 @@ def read_input(file: str) -> Generator[str, None, None]:
     ----------
     file: str
         Path to the input file.
-    Returns
+
+    Yields
     -------
     Generator[str, None, None]:
         Each line of the input file.
@@ -23,19 +24,33 @@ def read_input(file: str) -> Generator[str, None, None]:
         for line in handle.readlines():
             yield line.strip()
 
-def cubes_per_game() -> Tuple:
+def cubes_per_game() -> Generator[Tuple[int, dict[str, int]], None, None]:
+    '''
+    Takes each game line and yields its ID and how many cubes per color are 
+    needed for the game to be possible.
 
+    Yields
+    ------
+    Generator[Tuple[int, dict[str, int]], None, None]
+        Game ID and dictionary with 'red', 'green' and 'blue' as keys and their
+        respective maximum number of cubes in the game.
+    '''
+
+    # Read line
     for line in read_input('Inputs/day2.txt'):
-
+        
+        # Initialize empty dictionary color : max cubes
         cube_tally = {
             'red' : 0,
             'green' : 0, 
             'blue' : 0
         }
 
+        # Get game ID
         game_info, cube_info = line.split(': ')
         game_id = int(game_info[5:])
 
+        # Update dict with max number of cubes per color in all sets
         for cubes in cube_info.replace(';', ',').split(', '):
             n_cubes, color = cubes.split(' ')
             if int(n_cubes) > cube_tally[color]:
@@ -43,28 +58,62 @@ def cubes_per_game() -> Tuple:
 
         yield game_id, cube_tally
 
-def check_possibility_configuration(cube_tally):
-        max_cubes = {
-            'red' : 12,
-            'green' : 13, 
-            'blue' : 14
-        }
+def check_possibility_configuration(cube_tally: dict[str, int]) -> bool:
+    '''
+    Compares the game configuration with the maximum number of cubes allowed for
+    a game to be possible and returns whether the game is possible or 
+    impossible.
 
-        for color in ('red', 'green', 'blue'):
-            if cube_tally[color] > max_cubes[color]:
-                return False
-        
-        return True
+    Parameters
+    ----------
+    cube_tally : dict[str, int]
+        Dictionary with 'red', 'green' and 'blue' as keys and their
+        respective maximum number of cubes in the game.
 
-def count_posible_games():
+    Returns
+    -------
+    bool
+        Whether the game is possible or impossible
+    '''
 
+    # Maximum number of cubes allowed in each game
+    max_cubes = {
+        'red' : 12,
+        'green' : 13, 
+        'blue' : 14
+    }
+
+    # Check if game configuration exceeds the maximum allowed
+    for color in ('red', 'green', 'blue'):
+        if cube_tally[color] > max_cubes[color]:
+            return False
+    
+    # Returns true as default
+    return True
+
+def give_solutions() -> str:
+    '''
+    Take the cube tally per color of all games and calculate the sum of
+    possible games and the sum of the power.
+
+    Returns
+    -------
+    str
+        Human-readible string with the sum of possible games (solution 1) and 
+        the sum of the power (solution 2)
+    '''
+
+    # Initialize return variables
     possible_games_sum = 0
     power_sum = 0
 
+    # Iterate over the game IDs and the maximum cubes found
     for game_id, cube_tally in cubes_per_game():
 
+        # Power = minumum configuration of cubes for the game to be valid
         power_sum += cube_tally['red'] * cube_tally['green'] * cube_tally['blue']
 
+        # Is the game possible?
         if check_possibility_configuration(cube_tally):
             possible_games_sum += game_id
     
@@ -72,7 +121,7 @@ def count_posible_games():
 
 def main():
     '''Program process'''
-    print(count_posible_games())
+    print(give_solutions())
 
 if __name__ ==  '__main__':
     main()
