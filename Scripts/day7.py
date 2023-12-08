@@ -199,14 +199,11 @@ def calculate_winnings(hands_bids: list[list[str, str]], problem: Literal[1,2]) 
 
     return winnings
 
-
 def main():
     '''Program process'''
     hands_bids = read_input('Inputs/day7.txt')
     print(calculate_winnings(hands_bids, 1))
     print(calculate_winnings(hands_bids, 2))
-
-
     
 if __name__ ==  '__main__':
     main()
