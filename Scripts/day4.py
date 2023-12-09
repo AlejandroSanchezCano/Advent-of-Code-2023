@@ -107,5 +107,6 @@ def calculate_total_points() -> tuple[int, int]:
 def main():
     '''Program process'''
     print(calculate_total_points())
+    
 if __name__ ==  '__main__':
     main()
